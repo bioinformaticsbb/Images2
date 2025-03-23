@@ -8,9 +8,13 @@ var http = require('http');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use('./quran-images', express.static(__dirname + '/images'));
+app.use('/quran-images', express.static(__dirname + '/quran-images'));
 app.use("/", routes);
 app.set("port", port);
+
+app.get('/health', (req, res) => {
+  res.status(200).send('API is running');
+});
 
 var server = http.createServer(app);
 server.listen(port, function() {

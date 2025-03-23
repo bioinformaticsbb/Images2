@@ -32,26 +32,44 @@
     <div class="outer">
       <div class="middle">
         <div class="inner">
-          <h2>This API is built to fetch Holy Quran pages.</h2>
-          <br />
-          <strong>There are three main endpoints:</strong>
-          <br />
-          <ul>
-            <li>
-              <strong>/page/:pageNumber</strong> <br />
-              <span>This endpoint returns AbsolutePath of image</span> &nbsp; <a href="https://quran-images-api.herokuapp.com/page/1">Try out</a>
-            </li>
-            <li>
-              <strong>/show/page/:pageNumber</strong> <br />
-              <span>This endpoint returns fully image in png format </span> &nbsp; <a href="https://quran-images-api.herokuapp.com/show/page/1">Try out</a>
-            </li>
-            <li>
-              <strong>/download/page/:pageNumber</strong> <br />
-              <span
-                >This endpoint allows to download image of desired page
-              </span> &nbsp;<a href="https://quran-images-api.herokuapp.com/download/page/1">Try out</a>
-            </li>
-          </ul>
+          <div id="image-viewer" style="text-align: center; position: relative;">
+            <button id="prev-button" style="position: absolute; left: 10px; bottom: 10px;">Previous</button>
+            <img id="quran-image" src="/show/page/1" alt="Quran Page 1" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;" />
+            <div id="page-number" style="margin-top: 10px; font-size: 18px;">Page: 1</div>
+            <button id="next-button" style="position: absolute; right: 10px; bottom: 10px;">Next</button>
+          </div>
+          <script>
+            const totalPages = 604; // Total number of Quran pages
+            let currentPage = 1;
+
+            const imageElement = document.getElementById('quran-image');
+            const prevButton = document.getElementById('prev-button');
+            const nextButton = document.getElementById('next-button');
+            const pageNumberElement = document.getElementById('page-number');
+
+            // Update the image source, alt text, and page number
+            function updateImage() {
+              imageElement.src = `/show/page/${currentPage}`;
+              imageElement.alt = `Quran Page ${currentPage}`;
+              pageNumberElement.textContent = `Page: ${currentPage}`;
+            }
+
+            // Handle Previous button click
+            prevButton.addEventListener('click', () => {
+              if (currentPage > 1) {
+                currentPage--;
+                updateImage();
+              }
+            });
+
+            // Handle Next button click
+            nextButton.addEventListener('click', () => {
+              if (currentPage < totalPages) {
+                currentPage++;
+                updateImage();
+              }
+            });
+          </script>
         </div>
       </div>
     </div>

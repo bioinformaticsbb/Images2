@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran Pages</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .page-number {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        img {
+            display: block;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-number" id="page-number">Page: 1</div>
+    <div id="quran-pages">
+        <!-- Quran pages will be dynamically loaded here -->
+    </div>
+    <script>
+        const totalPages = 604; // Total number of Quran pages
+        const container = document.getElementById('quran-pages');
+        const pageNumberDisplay = document.getElementById('page-number');
+
+        // Load all pages dynamically
+        for (let i = 1; i <= totalPages; i++) {
+            const img = document.createElement('img');
+            img.src = `/show/page/${i}`;
+            img.alt = `Page ${i}`;
+            img.dataset.page = i;
+            container.appendChild(img);
+        }
+
+        // Update page number on scroll
+        window.addEventListener('scroll', () => {
+            const images = document.querySelectorAll('#quran-pages img');
+            let currentPage = 1;
+
+            images.forEach(img => {
+                const rect = img.getBoundingClientRect();
+                if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+                    currentPage = img.dataset.page;
+                }
+            });
+
+            pageNumberDisplay.textContent = `Page: ${currentPage}`;
+        });
+    </script>
+</body>
+</html>
